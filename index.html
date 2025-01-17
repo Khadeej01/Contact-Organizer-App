@@ -5,87 +5,132 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Contact-Organizer-App</title>
-    <link href="https://unpkg.com/tailwindcss@^1.0/dist/tailwind.min.css" rel="stylesheet">
+    <script src="https://cdn.tailwindcss.com"></script>
 </head>
 
 <body class="bg-gray-600">
-  
 
-        <!-- Header -->
-        <nav class="flex justify-center items-center space-x-4  py-6">
-            <a href="/dashboard"
-                class="font-bold px-3 py-2 text-slate-700 rounded-lg hover:bg-slate-100 hover:text-slate-900">Home</a>
+    <!-- Header -->
+    <nav class="flex justify-center items-center space-x-4 py-6">
+        <a href="/dashboard"
+            class="font-bold px-3 py-2 text-slate-700 rounded-lg hover:bg-slate-100 hover:text-slate-900">Home</a>
+        <a href="/projects"
+            class="font-bold px-3 py-2 text-slate-700 rounded-lg hover:bg-slate-100 hover:text-slate-900">Add</a>
+        <button id="openModal" class="bg-blue-500 text-white px-4 py-2 rounded-md hover:bg-blue-600">
+            Open Form
+        </button>
+    </nav>
 
-            <a href="/projects"
-                class="font-bold px-3 py-2 text-slate-700 rounded-lg hover:bg-slate-100 hover:text-slate-900">Add</a>
-            <div class="bg-gray-100 flex justify-center items-center">
+    <!-- Section for Contacts -->
+    <div class="container mx-auto p-6">
+        <h2 class="text-3xl font-semibold text-center mb-6">My Contacts</h2>
+        <div id="contacts-list" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+            <!-- Contacts will be inserted dynamically here -->
+        </div>
+    </div>
 
-                <div class="w-full max-w-sm rounded-lg">
-                    <div class="relative rounded-lg">
-                        <input type="text" id="search" class="w-full p-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
-                            placeholder="Search...">                        <span class="absolute left-3 top-1/2 transform -translate-x-6 translate-y-1/2 text-black-400">
-                            <svg class="w-5 h-5" xmlns="#"   fill="none" viewBox="0 0 24 24"
-                                stroke="currentColor" stroke-width="2">
-                                <path stroke-linecap="round" stroke-linejoin="round"
-                                    d="M11 4a7 7 0 011.175 13.883l5.006 5.006a1 1 0 01-1.414 1.414l-5.006-5.006A7 7 0 1111 4z">
-                                </path>
-                            </svg>
-                        </span>
-                    </div>
-                </div>
+    <!-- Modal -->
+    <div id="modal" class="fixed inset-0 bg-gray-800 bg-opacity-50 flex items-center justify-center hidden">
+        <div class="bg-white rounded-lg shadow-lg w-96 p-6">
+            <!-- Modal Header -->
+            <div class="flex justify-between items-center border-b pb-3">
+                <h3 class="text-lg font-medium">Contact Form</h3>
+                <button id="closeModal" class="text-gray-500 hover:text-gray-700">
+                    &times;
+                </button>
             </div>
-        </nav>
 
+            <!-- Modal Body -->
+            <div class="mt-4">
+                <form id="contactForm">
+                    <div class="mb-4">
+                        <label for="name" class="block text-sm font-medium text-gray-700">Name</label>
+                        <input type="text" id="name" name="name" placeholder="Your Name"
+                            class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:border-blue-500 focus:ring-blue-500">
+                    </div>
+                    <div class="mb-4">
+                        <label for="email" class="block text-sm font-medium text-gray-700">Email</label>
+                        <input type="email" id="email" name="email" placeholder="you@example.com"
+                            class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:border-blue-500 focus:ring-blue-500">
+                    </div>
+                    <div class="mb-4">
+                        <label for="message" class="block text-sm font-medium text-gray-700">Message</label>
+                        <textarea id="message" name="message" rows="4" placeholder="Your Message"
+                            class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:border-blue-500 focus:ring-blue-500"></textarea>
+                    </div>
 
-        <!-- Section for Contacts -->
-        <div class="container mx-auto p-6">
-            <h2 class="text-3xl font-semibold text-center mb-6">My Contacts</h2>
-            <div id="contacts-list" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-                <!-- Contacts will be inserted dynamically here -->
+                    <!-- Submit Button -->
+                    <div class="flex justify-end">
+                        <button type="submit"
+                            class="bg-blue-500 text-white px-4 py-2 rounded-md hover:bg-blue-600">
+                            Submit
+                        </button>
+                    </div>
+                </form>
             </div>
         </div>
+    </div>
 
-        <script>
-            // Array of contacts with name and image URL
-            const contacts = [
-                {
-                    name: "Hakimi",
-                    image: "assets/images/hakimi.jpg"
-                },
-                {
-                    name: "kanye west",
-                    image: "assets/images/artist.jpg"
-                },
-                {
-                    name: "sprouse",
-                    image: "assets/images/katkouutt.jpg"
-                }
-            ];
+    <script>
+        // Modal Script
+        const openModal = document.getElementById('openModal');
+        const closeModal = document.getElementById('closeModal');
+        const modal = document.getElementById('modal');
 
-            // Function to render contacts
-            function renderContacts() {
-                const contactsList = document.getElementById('contacts-list');
-                contactsList.innerHTML = ''; // Clear the existing content
+        openModal.addEventListener('click', () => {
+            modal.classList.remove('hidden');
+        });
 
-                contacts.forEach(contact => {
-                    const contactCard = document.createElement('div');
-                    contactCard.classList.add('bg-white', 'p-4', 'rounded-lg', 'shadow-lg', 'flex', 'items-center', 'space-x-4');
+        closeModal.addEventListener('click', () => {
+            modal.classList.add('hidden');
+        });
 
-                    contactCard.innerHTML = `
+        window.addEventListener('click', (e) => {
+            if (e.target === modal) {
+                modal.classList.add('hidden');
+            }
+        });
+
+        // Array of contacts with name and image URL
+        const contacts = [
+            {
+                name: "Hakimi",
+                image: "assets/images/hakimi.jpg"
+            },
+            {
+                name: "Kanye West",
+                image: "assets/images/artist.jpg"
+            },
+            {
+                name: "Sprouse",
+                image: "assets/images/katkouutt.jpg"
+            }
+        ];
+
+        // Function to render contacts
+        function renderContacts() {
+            const contactsList = document.getElementById('contacts-list');
+            contactsList.innerHTML = ''; // Clear the existing content
+
+            contacts.forEach(contact => {
+                const contactCard = document.createElement('div');
+                contactCard.classList.add('bg-white', 'p-4', 'rounded-lg', 'shadow-lg', 'flex', 'items-center', 'space-x-4');
+
+                contactCard.innerHTML = `
                     <img src="${contact.image}" alt="${contact.name}" class="w-16 h-16 rounded-full">
                     <div>
                         <h3 class="text-xl font-semibold">${contact.name}</h3>
                     </div>
                 `;
 
-                    contactsList.appendChild(contactCard);
-                });
-            }
+                contactsList.appendChild(contactCard);
+            });
+        }
 
-            // Call the function to render contacts
-            renderContacts();
-        </script>
- 
+        // Call the function to render contacts
+        renderContacts();
+    </script>
+
 </body>
 
 </html>
