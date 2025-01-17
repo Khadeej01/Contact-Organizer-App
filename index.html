@@ -1,27 +1,30 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Contact-Organizer-App</title>
     <link href="https://unpkg.com/tailwindcss@^1.0/dist/tailwind.min.css" rel="stylesheet">
 </head>
-<body  class="bg-blue-100">
 
-    <!-- Header -->
-    <nav class="flex justify-center items-center space-x-4  py-6">
-        <a href="/dashboard"
-            class="font-bold px-3 py-2 text-slate-700 rounded-lg hover:bg-slate-100 hover:text-slate-900">Home</a>
-        
-        <a href="/projects" class="font-bold px-3 py-2 text-slate-700 rounded-lg hover:bg-slate-100 hover:text-slate-900">Add</a>
+<body class="bg-gray-600">
+  
+
+        <!-- Header -->
+        <nav class="flex justify-center items-center space-x-4  py-6">
+            <a href="/dashboard"
+                class="font-bold px-3 py-2 text-slate-700 rounded-lg hover:bg-slate-100 hover:text-slate-900">Home</a>
+
+            <a href="/projects"
+                class="font-bold px-3 py-2 text-slate-700 rounded-lg hover:bg-slate-100 hover:text-slate-900">Add</a>
             <div class="bg-gray-100 flex justify-center items-center">
 
-                <div class="w-full max-w-sm ">
-                    <div class="relative">
+                <div class="w-full max-w-sm rounded-lg">
+                    <div class="relative rounded-lg">
                         <input type="text" id="search" class="w-full p-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
-                            placeholder="Search...">
-                        <span class="absolute left-3 top-1/2 transform -translate-x-6 translate-y-1/2 text-black-400">
-                            <svg class="w-5 h-5" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
+                            placeholder="Search...">                        <span class="absolute left-3 top-1/2 transform -translate-x-6 translate-y-1/2 text-black-400">
+                            <svg class="w-5 h-5" xmlns="#"   fill="none" viewBox="0 0 24 24"
                                 stroke="currentColor" stroke-width="2">
                                 <path stroke-linecap="round" stroke-linejoin="round"
                                     d="M11 4a7 7 0 011.175 13.883l5.006 5.006a1 1 0 01-1.414 1.414l-5.006-5.006A7 7 0 1111 4z">
@@ -31,57 +34,58 @@
                     </div>
                 </div>
             </div>
-    </nav>
-    
+        </nav>
 
-    <!-- Section for Contacts -->
-    <div class="container mx-auto p-6">
-        <h2 class="text-3xl font-semibold text-center mb-6">My Contacts</h2>
-        <div id="contacts-list" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-            <!-- Contacts will be inserted dynamically here -->
+
+        <!-- Section for Contacts -->
+        <div class="container mx-auto p-6">
+            <h2 class="text-3xl font-semibold text-center mb-6">My Contacts</h2>
+            <div id="contacts-list" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                <!-- Contacts will be inserted dynamically here -->
+            </div>
         </div>
-    </div>
 
-    <script>
-        // Array of contacts with name and image URL
-        const contacts = [
-            {
-                name: "Hakimi",
-                image: "assets/images/hakimi.jpg"
-            },
-            {
-                name: "kanye west",
-                image: "assets/images/artist.jpg"
-            },
-            {
-                name: "sprouse",
-                image: "assets/images/katkouutt.jpg"
-            }
-        ];
+        <script>
+            // Array of contacts with name and image URL
+            const contacts = [
+                {
+                    name: "Hakimi",
+                    image: "assets/images/hakimi.jpg"
+                },
+                {
+                    name: "kanye west",
+                    image: "assets/images/artist.jpg"
+                },
+                {
+                    name: "sprouse",
+                    image: "assets/images/katkouutt.jpg"
+                }
+            ];
 
-        // Function to render contacts
-        function renderContacts() {
-            const contactsList = document.getElementById('contacts-list');
-            contactsList.innerHTML = ''; // Clear the existing content
+            // Function to render contacts
+            function renderContacts() {
+                const contactsList = document.getElementById('contacts-list');
+                contactsList.innerHTML = ''; // Clear the existing content
 
-            contacts.forEach(contact => {
-                const contactCard = document.createElement('div');
-                contactCard.classList.add('bg-white', 'p-4', 'rounded-lg', 'shadow-lg', 'flex', 'items-center', 'space-x-4');
+                contacts.forEach(contact => {
+                    const contactCard = document.createElement('div');
+                    contactCard.classList.add('bg-white', 'p-4', 'rounded-lg', 'shadow-lg', 'flex', 'items-center', 'space-x-4');
 
-                contactCard.innerHTML = `
+                    contactCard.innerHTML = `
                     <img src="${contact.image}" alt="${contact.name}" class="w-16 h-16 rounded-full">
                     <div>
                         <h3 class="text-xl font-semibold">${contact.name}</h3>
                     </div>
                 `;
 
-                contactsList.appendChild(contactCard);
-            });
-        }
+                    contactsList.appendChild(contactCard);
+                });
+            }
 
-        // Call the function to render contacts
-        renderContacts();
-    </script>
-
+            // Call the function to render contacts
+            renderContacts();
+        </script>
+ 
 </body>
+
 </html>
