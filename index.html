@@ -110,7 +110,11 @@
         const closeModal = document.getElementById('closeModal');
         const modal = document.getElementById('modal');
   
-
+  // Ouvre le modal au clic sur le lien "Add"
+  openModal.addEventListener('click', (e) => {
+            e.preventDefault(); // Empêche la redirection du lien
+            modal.classList.remove('hidden');
+        });
         
       
     </script>
