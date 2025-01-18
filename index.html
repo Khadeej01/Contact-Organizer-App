@@ -133,25 +133,7 @@
         });
 
         
-        // Function to render contacts
-        function renderContacts() {
-            const contactsList = document.getElementById('contacts-list');
-            contactsList.innerHTML = ''; // Clear the existing content
-
-            contacts.forEach(contact => {
-                const contactCard = document.createElement('div');
-                contactCard.classList.add('bg-white', 'p-4', 'rounded-lg', 'shadow-lg', 'flex', 'items-center', 'space-x-4');
-
-                contactCard.innerHTML = `
-                    <img src="${contact.image}" alt="${contact.name}" class="w-16 h-16 rounded-full">
-                    <div>
-                        <h3 class="text-xl font-semibold">${contact.name}</h3>
-                    </div>
-                `;
-
-                contactsList.appendChild(contactCard);
-            });
-        }
+      
     </script>
 
 </body>
