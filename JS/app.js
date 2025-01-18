@@ -57,9 +57,11 @@ contactForm.addEventListener('submit', (e) => {
     });
 
     // Save the updated contacts array back to localStorage
+    
     localStorage.setItem('contacts', JSON.stringify(savedContacts));
 
     // Reset the form and close the modal
+
     contactForm.reset();
     modal.classList.add('hidden');
 
