@@ -12,7 +12,7 @@
 
     <!-- Header -->
     <nav class="flex justify-center items-center space-x-4 py-6">
-        <a href="/dashboard"
+        <a href="#" id="homeLink"
             class="font-bold px-3 py-2 text-slate-700 rounded-lg hover:bg-slate-100 hover:text-slate-900">Home</a>
         <a href="#" id="openModal"
             class="font-bold px-3 py-2 text-slate-700 rounded-lg hover:bg-slate-100 hover:text-slate-900">Add</a>
@@ -118,8 +118,17 @@
         window.addEventListener('click', (e) => {
             if (e.target === modal) {
                 modal.classList.add('hidden');
-                
+
             }
+        });
+
+          // Home link functionality
+          const homeLink = document.getElementById('homeLink');
+        const homeSection = document.getElementById('homeSection');
+
+        homeLink.addEventListener('click', (e) => {
+            e.preventDefault();
+            homeSection.scrollIntoView({ behavior: 'smooth' });
         });
     </script>
       <!-- Section for Contacts -->
