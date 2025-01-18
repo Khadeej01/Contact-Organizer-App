@@ -1,69 +1,91 @@
-// // app.js
+// Get references to the modal and form elements
+const openModal = document.getElementById('openModal');
+const closeModal = document.getElementById('closeModal');
+const modal = document.getElementById('modal');
+const contactForm = document.getElementById('contactForm');
+const contactsList = document.getElementById('contacts-list');
 
+// Function to render contacts
+function renderContacts() {
+    contactsList.innerHTML = ''; // Clear the list
+    const savedContacts = JSON.parse(localStorage.getItem('contacts')) || [];
+    savedContacts.forEach(contact => {
+        const contactCard = document.createElement('div');
+        contactCard.classList.add('bg-white', 'p-4', 'rounded-lg', 'shadow-md');
+        contactCard.innerHTML = `
+            <div class="flex items-center space-x-4">
+                <img src="${contact.image}" alt="Contact Image" class="w-12 h-12 rounded-full">
+                <div>
+                    <h3 class="text-lg font-semibold">${contact.name}</h3>
+                    <p class="text-sm text-gray-600">${contact.email}</p>
+                    <p class="text-sm text-gray-600">${contact.telephone}</p>
+                    <p class="text-sm text-gray-600">${contact.ville}</p>
+                    <p class="text-sm text-gray-600">${contact.genre}</p>
+                </div>
+            </div>
+        `;
+        contactsList.appendChild(contactCard);
+    });
+}
 
-// document.addEventListener('DOMContentLoaded', function () {
-//     const form = document.getElementById('contact-form');
-//     const contactsTable = document.getElementById('contacts-list');
+// Handle form submission
+contactForm.addEventListener('submit', (e) => {
+    e.preventDefault(); // Prevent form from submitting the usual way
 
-//     // Fonction de validation des données
-//     function validateForm() {
-//         const email = document.getElementById('email').value;
-//         const telephone = document.getElementById('telephone').value;
-        
-//         // Validation de l'email avec une expression régulière
-//         const emailRegex = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/;
-//         if (!emailRegex.test(email)) {
-//             alert('Email invalide');
-//             return false;
-//         }
+    // Get form values
+    const name = document.getElementById('nom').value;
+    const prenom = document.getElementById('prenom').value;
+    const email = document.getElementById('email').value;
+    const telephone = document.getElementById('telephone').value;
+    const genre = document.querySelector('input[name="genre"]:checked')?.value || '';
+    const ville = document.getElementById('ville').value;
+    const imageInput = document.getElementById('image');
+    const imageFile = imageInput.files[0];
+    const image = imageFile ? URL.createObjectURL(imageFile) : "https://via.placeholder.com/150"; // Default image
 
-//         // Validation du téléphone (doit contenir 10 chiffres)
-//         const phoneRegex = /^\d{10}$/;
-//         if (!phoneRegex.test(telephone)) {
-//             alert('Numéro de téléphone invalide (doit contenir 10 chiffres)');
-//             return false;
-//         }
+    // Get the saved contacts from localStorage (or an empty array if none exist)
+    const savedContacts = JSON.parse(localStorage.getItem('contacts')) || [];
 
-//         return true;
-//     }
+    // Add the new contact to the contacts array
+    savedContacts.push({
+        name: `${name} ${prenom}`,
+        email,
+        telephone,
+        genre,
+        ville,
+        image
+    });
 
-//     // Fonction pour ajouter un contact à la table
-//     function addContact(contact) {
-//         const row = document.createElement('tr');
-//         row.classList.add('border-b');
-//         row.innerHTML = `
-//             <td class="py-2 px-4">${contact.nom}</td>
-//             <td class="py-2 px-4">${contact.prenom}</td>
-//             <td class="py-2 px-4">${contact.email}</td>
-//             <td class="py-2 px-4">${contact.genre}</td>
-//             <td class="py-2 px-4">${contact.ville}</td>
-//             <td class="py-2 px-4">${contact.telephone}</td>
-//         `;
-//         contactsTable.appendChild(row);
-//     }
+    // Save the updated contacts array back to localStorage
+    localStorage.setItem('contacts', JSON.stringify(savedContacts));
 
-//     // Gestion de la soumission du formulaire
-//     form.addEventListener('submit', function (e) {
-//         e.preventDefault();
+    // Reset the form and close the modal
+    contactForm.reset();
+    modal.classList.add('hidden');
 
-//         if (validateForm()) {
-//             const contact = {
-//                 nom: document.getElementById('nom').value,
-//                 prenom: document.getElementById('prenom').value,
-//                 email: document.getElementById('email').value,
-//                 genre: document.querySelector('input[name="genre"]:checked').value,
-//                 ville: document.getElementById('ville').value,
-//                 telephone: document.getElementById('telephone').value,
-//             };
+    // Render the updated contacts list
+    renderContacts();
+});
 
-//             // Ajouter le contact à la table
-//             addContact(contact);
+// Open modal
+openModal.addEventListener('click', (e) => {
+    e.preventDefault();
+    modal.classList.remove('hidden');
+});
 
-//             // Réinitialiser le formulaire
-//             form.reset();
-//         }
-//     });
-// });
+// Close modal
+closeModal.addEventListener('click', () => {
+    modal.classList.add('hidden');
+});
 
+// Close modal if clicked outside
+window.addEventListener('click', (e) => {
+    if (e.target === modal) {
+        modal.classList.add('hidden');
+    }
+});
 
-  
+// Render contacts when the page loads
+document.addEventListener('DOMContentLoaded', () => {
+    renderContacts();
+});
