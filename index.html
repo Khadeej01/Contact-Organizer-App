@@ -115,6 +115,11 @@
             e.preventDefault(); // Empêche la redirection du lien
             modal.classList.remove('hidden');
         });
+
+        // Ferme le modal au clic sur le bouton de fermeture
+        closeModal.addEventListener('click', () => {
+            modal.classList.add('hidden');
+        });
         
       
     </script>
