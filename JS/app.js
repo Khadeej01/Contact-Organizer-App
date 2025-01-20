@@ -1,15 +1,15 @@
-// Get references to the modal and form elements
+// Obtenir des références aux elements modaux et de formulaire
 const openModal = document.getElementById('openModal');
 const closeModal = document.getElementById('closeModal');
 const modal = document.getElementById('modal');
 const contactForm = document.getElementById('contactForm');
 const contactsList = document.getElementById('contacts-list');
 
-// Function to render contacts
+// Fonction pour rendre les contacts
 function renderContacts() {
-    contactsList.innerHTML = ''; // Clear the list
+    contactsList.innerHTML = ''; // Effacer la liste
     const savedContacts = JSON.parse(localStorage.getItem('contacts')) || [];
-    savedContacts.forEach(contact => {
+    savedContacts.forEach((contact, index) => {
         const contactCard = document.createElement('div');
         contactCard.classList.add('bg-white', 'p-4', 'rounded-lg', 'shadow-md');
         contactCard.innerHTML = `
@@ -22,17 +22,32 @@ function renderContacts() {
                     <p class="text-sm text-gray-600">${contact.ville}</p>
                     <p class="text-sm text-gray-600">${contact.genre}</p>
                 </div>
+                <button 
+                    class="bg-[#7F939C] text-black px-4 py-2 rounded-md hover:bg-slate-200"
+                    onclick="deleteContact(${index})">
+                    Delete
+                </button>
             </div>
         `;
         contactsList.appendChild(contactCard);
     });
 }
 
-// Handle form submission
-contactForm.addEventListener('submit', (e) => {
-    e.preventDefault(); // Prevent form from submitting the usual way
+// Fonction pour supprimer un contact
+function deleteContact(index) {
+    const savedContacts = JSON.parse(localStorage.getItem('contacts')) || [];
+    if (index >= 0 && index < savedContacts.length) {
+        savedContacts.splice(index, 1); // Supprimer le contact à l'index donné
+        localStorage.setItem('contacts', JSON.stringify(savedContacts)); // Mettre à jour le localStorage
+        renderContacts(); // Rafraîchir l'affichage des contacts
+    }
+}
 
-    // Get form values
+// Gérer la soumission du formulaire
+contactForm.addEventListener('submit', (e) => {
+    e.preventDefault(); // Empêcher la soumission classique
+
+    // Récupérer les valeurs du formulaire
     const name = document.getElementById('nom').value;
     const prenom = document.getElementById('prenom').value;
     const email = document.getElementById('email').value;
@@ -41,12 +56,12 @@ contactForm.addEventListener('submit', (e) => {
     const ville = document.getElementById('ville').value;
     const imageInput = document.getElementById('image');
     const imageFile = imageInput.files[0];
-    const image = imageFile ? URL.createObjectURL(imageFile) : "https://via.placeholder.com/150"; // Default image
+    const image = imageFile ? URL.createObjectURL(imageFile) : "https://via.placeholder.com/150"; // Image par défaut
 
-    // Get the saved contacts from localStorage (or an empty array if none exist)
+    // Récupérer les contacts enregistrés dans le localStorage (ou un tableau vide si aucun)
     const savedContacts = JSON.parse(localStorage.getItem('contacts')) || [];
 
-    // Add the new contact to the contacts array
+    // Ajouter le nouveau contact au tableau de contacts
     savedContacts.push({
         name: `${name} ${prenom}`,
         email,
@@ -56,38 +71,36 @@ contactForm.addEventListener('submit', (e) => {
         image
     });
 
-    // Save the updated contacts array back to localStorage
-    
+    // Sauvegarder le tableau de contacts mis à jour dans le localStorage
     localStorage.setItem('contacts', JSON.stringify(savedContacts));
 
-    // Reset the form and close the modal
-
+    // Réinitialiser le formulaire et fermer la modale
     contactForm.reset();
     modal.classList.add('hidden');
 
-    // Render the updated contacts list
+    // Afficher la liste des contacts mise à jour
     renderContacts();
 });
 
-// Open modal
+// Ouvrir la modale
 openModal.addEventListener('click', (e) => {
     e.preventDefault();
     modal.classList.remove('hidden');
 });
 
-// Close modal
+// Fermer la modale
 closeModal.addEventListener('click', () => {
     modal.classList.add('hidden');
 });
 
-// Close modal if clicked outside
+// Fermer la modale si un clic est fait en dehors
 window.addEventListener('click', (e) => {
     if (e.target === modal) {
         modal.classList.add('hidden');
     }
 });
 
-// Render contacts when the page loads
+// Afficher les contacts lorsque la page se charge
 document.addEventListener('DOMContentLoaded', () => {
     renderContacts();
 });
